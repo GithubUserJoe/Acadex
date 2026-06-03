@@ -52,6 +52,87 @@ public class AppController {
     public List<CheckBox> typeChecks() { return typeChecks; }
     public ThumbnailService thumbnails() { return thumbnailService; }
 
+    // Options for upload dialog — provide names directly so upload dialog is independent of filter checkbox state
+    public List<String> subjectOptions() {
+        try {
+            return repository.subjects().stream().map(OptionItem::getName).collect(Collectors.toList());
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> subsubjectOptions() {
+        try {
+            Map<OptionItem, Map<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>>> h = repository.hierarchy();
+            List<String> list = new ArrayList<>();
+            for (Map.Entry<OptionItem, Map<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>>> se : h.entrySet()) {
+                for (Map.Entry<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>> sse : se.getValue().entrySet()) {
+                    list.add(sse.getKey().getName());
+                }
+            }
+            return list;
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> chapterOptions() {
+        try {
+            Map<OptionItem, Map<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>>> h = repository.hierarchy();
+            List<String> list = new ArrayList<>();
+            for (Map.Entry<OptionItem, Map<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>>> se : h.entrySet()) {
+                for (Map.Entry<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>> sse : se.getValue().entrySet()) {
+                    for (Map.Entry<OptionItem, Map<OptionItem, List<OptionItem>>> ce : sse.getValue().entrySet()) {
+                        list.add(ce.getKey().getName());
+                    }
+                }
+            }
+            return list;
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> topicOptions() {
+        try {
+            Map<OptionItem, Map<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>>> h = repository.hierarchy();
+            List<String> list = new ArrayList<>();
+            for (Map.Entry<OptionItem, Map<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>>> se : h.entrySet()) {
+                for (Map.Entry<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>> sse : se.getValue().entrySet()) {
+                    for (Map.Entry<OptionItem, Map<OptionItem, List<OptionItem>>> ce : sse.getValue().entrySet()) {
+                        for (Map.Entry<OptionItem, List<OptionItem>> te : ce.getValue().entrySet()) {
+                            list.add(te.getKey().getName());
+                        }
+                    }
+                }
+            }
+            return list;
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> subtopicOptions() {
+        try {
+            Map<OptionItem, Map<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>>> h = repository.hierarchy();
+            List<String> list = new ArrayList<>();
+            for (Map.Entry<OptionItem, Map<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>>> se : h.entrySet()) {
+                for (Map.Entry<OptionItem, Map<OptionItem, Map<OptionItem, List<OptionItem>>>> sse : se.getValue().entrySet()) {
+                    for (Map.Entry<OptionItem, Map<OptionItem, List<OptionItem>>> ce : sse.getValue().entrySet()) {
+                        for (Map.Entry<OptionItem, List<OptionItem>> te : ce.getValue().entrySet()) {
+                            for (OptionItem st : te.getValue()) {
+                                list.add(st.getName());
+                            }
+                        }
+                    }
+                }
+            }
+            return list;
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
     public void refreshAll() {
         refreshPdfs();
         refreshRecent();

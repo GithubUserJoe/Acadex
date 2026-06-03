@@ -37,11 +37,11 @@ public class UploadDialog {
         type.getItems().setAll(PdfType.values());
         type.setValue(PdfType.THEORY);
 
-        ComboBox<String> subject = editableCombo(labels(controller.subjectChecks()));
-        ComboBox<String> subsubject = editableCombo(java.util.Collections.emptyList());
-        ComboBox<String> chapter = editableCombo(labels(controller.chapterChecks()));
-        ComboBox<String> topic = editableCombo(labels(controller.topicChecks()));
-        ComboBox<String> subtopic = editableCombo(java.util.Collections.emptyList());
+        ComboBox<String> subject = editableCombo(controller.subjectOptions());
+        ComboBox<String> subsubject = editableCombo(controller.subsubjectOptions());
+        ComboBox<String> chapter = editableCombo(controller.chapterOptions());
+        ComboBox<String> topic = editableCombo(controller.topicOptions());
+        ComboBox<String> subtopic = editableCombo(controller.subtopicOptions());
 
         GridPane form = new GridPane();
         form.getStyleClass().add("upload-form");
